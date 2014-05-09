@@ -2,7 +2,8 @@
 from setuptools import setup, find_packages
 
 install_requires = [
-    'baelfire',
+    'baelfire>=0.2',
+    'virtualenv',
 ]
 
 if __name__ == '__main__':
@@ -17,4 +18,8 @@ if __name__ == '__main__':
           package_data={
               '': ['.gitignore.tpl'],
           },
+          entry_points="""\
+              [console_scripts]
+                  pyproject = bael.project.recipe:run
+          """,
           )

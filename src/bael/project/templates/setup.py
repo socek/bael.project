@@ -9,7 +9,6 @@ if __name__ == '__main__':
           version='0.1',
           packages=find_packages('src'),
           package_dir={'{{settings["package_name"]}}': 'src'},
-          namespace_packages=['{{settings["package_name"]}}'],
           install_requires=install_requires,
           include_package_data=True,
           )

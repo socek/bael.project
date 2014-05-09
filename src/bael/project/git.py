@@ -1,10 +1,6 @@
-from os import mkdir, path
-
 from baelfire.task import Task
 from baelfire.template import TemplateTask
 from baelfire.dependencys import (
-    AlwaysRebuild,
-    FileDoesNotExists,
     ParentFileChanged,
 )
 
@@ -29,9 +25,11 @@ class Init(Task):
     def get_output_file(self):
         return '.git'
 
+    def generate_links(self):
+        self.add_link('/git/ignore')
+
     def generate_dependencys(self):
-        self.add_dependecy(
-            ParentFileChanged(self.recipe.get_task('/git/ignore')))
+        pass
 
     def make(self):
         self.command(['git init'])
@@ -46,10 +44,7 @@ class Commit(Task):
         return '.git.flag'
 
     def generate_dependencys(self):
-        self.add_dependecy(FileDoesNotExists(self.get_output_file()))
-        self.add_dependecy(
-            FileDoesNotExists(
-                self.recipe.get_task('/git/init').get_output_file()))
+        pass
 
     def generate_links(self):
         self.add_link('/create')
@@ -58,4 +53,4 @@ class Commit(Task):
     def make(self):
         self.command(['git add .'])
         self.command(['git commit -a -m "Initial commit."'])
-        self.touch(self.get_output_file())
+        self.touchme()

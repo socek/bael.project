@@ -5,7 +5,6 @@ from baelfire.template import TemplateTask
 from baelfire.dependencys import (
     AlwaysRebuild,
     FileDoesNotExists,
-    ParentFileChanged,
 )
 
 
@@ -25,23 +24,33 @@ class SetupPy(TemplateTask):
     hide = True
     name = 'Creating setup.py file'
 
+    def __init__(self, *args, **kwargs):
+        kwargs['check_template'] = False
+        super().__init__(*args, **kwargs)
+
     def get_output_file(self):
-        return 'setup.py'
+        return self.paths['setuppy']
 
     def get_template_path(self):
-        return 'setup.py'
+        return self.paths['setuppy']
 
-    def generate_links(self):
-        self.add_link('/gatherdata')
+    def pre_invoked_tasks(self):
+        self.invoke_task('/gatherdata')
 
 
 class Directories(Task):
     hide = True
     name = 'Creating directories'
 
-    directories = [
-        'src'
+    directorie_names = [
+        'src',
+        'flags',
     ]
+
+    @property
+    def directories(self):
+        for name in self.directorie_names:
+            yield self.paths[name]
 
     def generate_dependencys(self):
         for directory in self.directories:
@@ -58,7 +67,7 @@ class Inits(Task):
     name = 'Creating __init__ files'
 
     def paths(self):
-        for directory in Directories.directories:
+        for directory in self.task('/directories').directories:
             yield path.join(directory, '__init__.py')
 
     def generate_dependencys(self):
@@ -83,49 +92,3 @@ class Create(Task):
     def generate_links(self):
         self.add_link('/setuppy')
         self.add_link('/inits')
-
-
-class GitIgnore(TemplateTask):
-    hide = True
-    name = 'Creating .gitignore file'
-
-    def get_output_file(self):
-        return '.gitignore'
-
-    def get_template_path(self):
-        return '.gitignore.tpl'
-
-
-class GitInit(Task):
-    hide = True
-    name = 'Initializing git repository'
-
-    def get_output_file(self):
-        return '.git'
-
-    def generate_dependencys(self):
-        self.add_dependecy(
-            ParentFileChanged(self.recipe.get_task('/gitignore')))
-
-    def make(self):
-        self.command(['git init'])
-
-
-class GitCommit(Task):
-    name = 'Git initial commit'
-    path = '/git'
-    help = 'Creates sample python repository with git'
-
-    def get_output_file(self):
-        return '.git.flag'
-
-    def generate_dependencys(self):
-        self.add_dependecy(FileDoesNotExists(self.get_output_file()))
-        self.add_dependecy(ParentFileChanged(self.recipe.get_task('/gitinit')))
-
-    def generate_links(self):
-        self.add_link('/create')
-
-    def make(self):
-        self.command(['git add .'])
-        self.command(['git commit -a -m "Initial commit."'])
