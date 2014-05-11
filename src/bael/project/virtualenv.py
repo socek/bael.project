@@ -12,7 +12,7 @@ class Virtualenv(Task):
     def generate_dependencys(self):
         pass
 
-    def make(self, **kwargs):
+    def make(self):
         self.command(['virtualenv -p python%s %s' % (
             self.python_version(),
             self.paths['virtualenv_path'])]
@@ -44,7 +44,7 @@ class Develop(VirtualenvTask):
         return self.paths['develop_flag']
 
     def generate_dependencys(self):
-        self.add_dependecy(ParentFileChanged(self.recipe.get_task('/setuppy')))
+        self.add_dependecy(ParentFileChanged(self.task('/setuppy')))
 
     def generate_links(self):
         self.add_link('/create')

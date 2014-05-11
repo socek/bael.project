@@ -1,8 +1,5 @@
 from baelfire.task import Task
 from baelfire.template import TemplateTask
-from baelfire.dependencys import (
-    ParentFileChanged,
-)
 
 
 class Ignore(TemplateTask):
@@ -52,5 +49,21 @@ class Commit(Task):
 
     def make(self):
         self.command(['git add .'])
-        self.command(['git commit -a -m "Initial commit."'])
+        self.command(['git commit -a -m "Initial commit by PyProject."'])
         self.touchme()
+
+
+class Develop(Task):
+    name = 'Develop with git'
+    path = '/git/develop'
+    help = 'Run setup.py develop with virtualenv with git repository'
+
+    def generate_dependencys(self):
+        pass
+
+    def generate_links(self):
+        self.add_link('/git')
+        self.add_link('/develop')
+
+    def make(self):
+        pass

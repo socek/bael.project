@@ -13,6 +13,7 @@ from .git import (
     Ignore,
     Init,
     Commit,
+    Develop as GitDevelop,
 )
 
 from .virtualenv import Virtualenv, Develop
@@ -46,6 +47,7 @@ class ProjectRecipe(Recipe):
         self.add_task(Commit())
         self.add_task(Virtualenv())
         self.add_task(Develop())
+        self.add_task(GitDevelop())
 
 
 def run():
