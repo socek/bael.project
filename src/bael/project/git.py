@@ -25,9 +25,6 @@ class Init(Task):
     def generate_links(self):
         self.add_link('/git/ignore')
 
-    def generate_dependencys(self):
-        pass
-
     def make(self):
         self.command(['git init'])
 
@@ -39,9 +36,6 @@ class Commit(Task):
 
     def get_output_file(self):
         return '.git.flag'
-
-    def generate_dependencys(self):
-        pass
 
     def generate_links(self):
         self.add_link('/create')
@@ -55,11 +49,8 @@ class Commit(Task):
 
 class Develop(Task):
     name = 'Develop with git'
-    path = '/git/develop'
+    path = '/develop/git'
     help = 'Run setup.py develop with virtualenv with git repository'
-
-    def generate_dependencys(self):
-        pass
 
     def generate_links(self):
         self.add_link('/git')

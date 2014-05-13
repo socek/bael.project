@@ -29,6 +29,7 @@ class ProjectRecipe(Recipe):
         self.paths['virtualenv_path'] = 'venv'
         self.paths['setuppy'] = 'setup.py'
         self.paths['src'] = 'src'
+        self.paths['project_home'] = ['%(src)s']
         self.paths['flags'] = 'flags'
         self.paths['develop_flag'] = ['%(flags)s', 'develop.flag']
 

@@ -15,6 +15,9 @@ class GatherData(Task):
     def make(self):
         self.settings['project_name'] = input('Project name: ')
         self.settings['package_name'] = self.settings['project_name'].lower()
+        self.paths['project_home'] = [
+            '%(src)s',
+            self.settings['package_name']]
 
     def generate_dependencys(self):
         self.add_dependecy(AlwaysRebuild())
@@ -45,6 +48,7 @@ class Directories(Task):
     directorie_names = [
         'src',
         'flags',
+        'project_home',
     ]
 
     @property
@@ -60,6 +64,9 @@ class Directories(Task):
         for directory in self.directories:
             if not path.exists(directory):
                 mkdir(directory)
+
+    def pre_invoked_tasks(self):
+        self.invoke_task('/gatherdata')
 
 
 class Inits(Task):
