@@ -13,7 +13,7 @@ class GatherData(Task):
     name = 'Gather data'
 
     def make(self):
-        self.settings['project_name'] = input('Project name: ')
+        self.ask_for_setting('project_name', 'Project name')
         self.settings['package_name'] = self.settings['project_name'].lower()
         self.paths['project_home'] = [
             '%(src)s',
