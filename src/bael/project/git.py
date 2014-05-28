@@ -23,7 +23,7 @@ class Init(Task):
         return '.git'
 
     def generate_links(self):
-        self.add_link('/git/ignore')
+        self.add_link('bael.project.git:Ignore')
 
     def make(self):
         self.command(['git init'])
@@ -38,8 +38,8 @@ class Commit(Task):
         return '.git.flag'
 
     def generate_links(self):
-        self.add_link('/create')
-        self.add_link('/git/init')
+        self.add_link('bael.project.tasks:Create')
+        self.add_link('bael.project.git:Init')
 
     def make(self):
         self.command(['git add .'])
@@ -53,8 +53,8 @@ class Develop(Task):
     help = 'Run setup.py develop with virtualenv with git repository'
 
     def generate_links(self):
-        self.add_link('/git')
-        self.add_link('/develop')
+        self.add_link('bael.project.virtualenv:Develop')
+        self.add_link(Commit)
 
     def make(self):
         pass

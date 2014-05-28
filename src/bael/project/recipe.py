@@ -22,8 +22,11 @@ from .virtualenv import Virtualenv, Develop
 class ProjectRecipe(Recipe):
 
     def __init__(self, python_version='3.4'):
+        self.python_version = python_version
         super().__init__()
-        self.settings['python_version'] = python_version
+
+    def final_settings(self):
+        self.settings['python_version'] = self.python_version
 
     def create_settings(self):
         self.paths['virtualenv_path'] = 'venv'

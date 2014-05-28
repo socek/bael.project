@@ -2,7 +2,7 @@ from os import mkdir, path
 
 from baelfire.task import Task
 from baelfire.template import TemplateTask
-from baelfire.dependencys import (
+from baelfire.dependencies import (
     AlwaysRebuild,
     FileDoesNotExists,
 )
@@ -19,7 +19,7 @@ class GatherData(Task):
             '%(src)s',
             self.settings['package_name']]
 
-    def generate_dependencys(self):
+    def generate_dependencies(self):
         self.add_dependecy(AlwaysRebuild())
 
 
@@ -38,7 +38,7 @@ class SetupPy(TemplateTask):
         return self.paths['setuppy']
 
     def pre_invoked_tasks(self):
-        self.invoke_task('/gatherdata')
+        self.invoke_task(GatherData)
 
 
 class Directories(Task):
@@ -56,7 +56,7 @@ class Directories(Task):
         for name in self.directorie_names:
             yield self.paths[name]
 
-    def generate_dependencys(self):
+    def generate_dependencies(self):
         for directory in self.directories:
             self.add_dependecy(FileDoesNotExists(directory))
 
@@ -66,7 +66,7 @@ class Directories(Task):
                 mkdir(directory)
 
     def pre_invoked_tasks(self):
-        self.invoke_task('/gatherdata')
+        self.invoke_task(GatherData)
 
 
 class Inits(Task):
@@ -74,15 +74,16 @@ class Inits(Task):
     name = 'Creating __init__ files'
 
     def paths(self):
-        for directory in self.task('/directories').directories:
+        url = Directories
+        for directory in self.task(url).directories:
             yield path.join(directory, '__init__.py')
 
-    def generate_dependencys(self):
+    def generate_dependencies(self):
         for file_path in self.paths():
             self.add_dependecy(FileDoesNotExists(file_path))
 
     def generate_links(self):
-        self.add_link('/directories')
+        self.add_link(Directories)
 
     def make(self):
         for file_path in self.paths():
@@ -93,9 +94,9 @@ class Create(Task):
 
     help = 'Creates sample python repository'
 
-    def generate_dependencys(self):
+    def generate_dependencies(self):
         pass
 
     def generate_links(self):
-        self.add_link('/setuppy')
-        self.add_link('/inits')
+        self.add_link(SetupPy)
+        self.add_link(Inits)
