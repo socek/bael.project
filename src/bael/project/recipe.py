@@ -41,17 +41,17 @@ class ProjectRecipe(Recipe):
         self.paths['VEpip'] = ['%(VEbin)s', 'pip']
 
     def gather_recipes(self):
-        self.add_task(Create())
-        self.add_task(SetupPy())
-        self.add_task(GatherData())
-        self.add_task(Directories())
-        self.add_task(Inits())
-        self.add_task(Ignore())
-        self.add_task(Init())
-        self.add_task(Commit())
-        self.add_task(Virtualenv())
-        self.add_task(Develop())
-        self.add_task(GitDevelop())
+        self.add_task(Create)
+        self.add_task(SetupPy)
+        self.add_task(GatherData)
+        self.add_task(Directories)
+        self.add_task(Inits)
+        self.add_task(Ignore)
+        self.add_task(Init)
+        self.add_task(Commit)
+        self.add_task(Virtualenv)
+        self.add_task(Develop)
+        self.add_task(GitDevelop)
 
 
 def run():
