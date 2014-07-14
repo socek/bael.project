@@ -2,7 +2,7 @@
 from setuptools import setup, find_packages
 
 install_requires = [
-    'baelfire>=0.2',
+    'baelfire==0.2',
     'virtualenv',
 ]
 
