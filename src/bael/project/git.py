@@ -35,7 +35,7 @@ class Commit(Task):
     help = 'Creates sample python repository with git'
 
     def get_output_file(self):
-        return '.git.flag'
+        return self.paths['flags:git']
 
     def generate_links(self):
         self.add_link('bael.project.tasks:Create')

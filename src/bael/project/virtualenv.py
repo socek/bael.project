@@ -7,12 +7,12 @@ class Virtualenv(Task):
     help = 'Generates virtual envoritment'
 
     def get_output_file(self):
-        return self.paths['virtualenv_path']
+        return self.paths['virtualenv']
 
     def make(self):
         self.command(['virtualenv -p python%s %s' % (
             self.python_version(),
-            self.paths['virtualenv_path'])]
+            self.paths['virtualenv'])]
         )
 
     def python_version(self):
@@ -25,11 +25,11 @@ class Virtualenv(Task):
 class VirtualenvTask(Task):
 
     def python(self, command, *args, **kwargs):
-        command = self.paths['VEpython'] + ' ' + command
+        command = self.paths['exe:python'] + ' ' + command
         return self.command([command], *args, **kwargs)
 
     def pip(self, command, *args, **kwargs):
-        command = self.paths['VEpip'] + ' ' + command
+        command = self.paths['exe:pip'] + ' ' + command
         return self.command([command], *args, **kwargs)
 
 
@@ -38,7 +38,7 @@ class Develop(VirtualenvTask):
     help = 'Run setup.py develop with virtualenv'
 
     def get_output_file(self):
-        return self.paths['develop_flag']
+        return self.paths['flags:develop']
 
     def generate_dependencies(self):
         self.add_dependecy(
@@ -51,5 +51,5 @@ class Develop(VirtualenvTask):
         self.add_link('bael.project.virtualenv:Virtualenv')
 
     def make(self):
-        self.python('%(setuppy)s develop' % self.paths)
+        self.python('%(project:setuppy)s develop' % self.paths)
         self.touchme()

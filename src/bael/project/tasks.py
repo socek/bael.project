@@ -13,11 +13,11 @@ class GatherData(Task):
     name = 'Gather data'
 
     def make(self):
-        self.ask_for_setting('project_name', 'Project name')
-        self.settings['package_name'] = self.settings['project_name'].lower()
-        self.paths['project_home'] = [
+        self.ask_for_setting('name', 'Project name')
+        self.settings['package:name'] = self.settings['name'].lower()
+        self.paths['project:home'] = [
             '%(src)s',
-            self.settings['package_name']]
+            self.settings['package:name']]
 
     def generate_dependencies(self):
         self.add_dependecy(AlwaysRebuild())
@@ -32,10 +32,10 @@ class SetupPy(TemplateTask):
         super().__init__(*args, **kwargs)
 
     def get_output_file(self):
-        return self.paths['setuppy']
+        return self.paths['project:setuppy']
 
     def get_template_path(self):
-        return self.paths['setuppy']
+        return 'setup.py'
 
     def pre_invoked_tasks(self):
         self.invoke_task(GatherData)
@@ -48,13 +48,16 @@ class Directories(Task):
     directorie_names = [
         'src',
         'flags',
-        'project_home',
+        'project:home',
     ]
 
     @property
     def directories(self):
         for name in self.directorie_names:
-            yield self.paths[name]
+            try:
+                yield self.paths[name]
+            except KeyError:
+                pass
 
     def generate_dependencies(self):
         for directory in self.directories:

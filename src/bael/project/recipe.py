@@ -29,16 +29,18 @@ class ProjectRecipe(Recipe):
         self.settings['python_version'] = self.python_version
 
     def create_settings(self):
-        self.paths['virtualenv_path'] = 'venv'
-        self.paths['setuppy'] = 'setup.py'
-        self.paths['src'] = 'src'
-        self.paths['project_home'] = ['%(src)s']
-        self.paths['flags'] = 'flags'
-        self.paths['develop_flag'] = ['%(flags)s', 'develop.flag']
+        self.set_path('virtualenv', 'cwd', 'venv')
+        self.set_path('src', 'cwd', 'src')
+        self.set_path('flags', 'cwd', 'flags')
 
-        self.paths['VEbin'] = ['%(virtualenv_path)s', 'bin']
-        self.paths['VEpython'] = ['%(VEbin)s', 'python']
-        self.paths['VEpip'] = ['%(VEbin)s', 'pip']
+        self.set_path('project:setuppy', 'cwd', 'setup.py')
+
+        self.set_path('flags:develop', 'flags', 'develop.flag')
+        self.set_path('flags:git', 'flags', '.git.flag')
+
+        self.set_path('virtualenv:bin', 'virtualenv', 'bin')
+        self.set_path('exe:python', 'virtualenv:bin', 'python')
+        self.set_path('exe:pip', 'virtualenv:bin', 'pip')
 
     def gather_recipes(self):
         self.add_task(Create)
