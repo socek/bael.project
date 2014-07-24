@@ -21,9 +21,9 @@ from .virtualenv import Virtualenv, Develop
 
 class ProjectRecipe(Recipe):
 
-    def __init__(self, python_version='3.4'):
+    def __init__(self, is_parent=True, python_version='3.4'):
         self.python_version = python_version
-        super().__init__()
+        super().__init__(is_parent=is_parent)
 
     def final_settings(self):
         self.settings['python_version'] = self.python_version
