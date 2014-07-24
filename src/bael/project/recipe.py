@@ -42,7 +42,7 @@ class ProjectRecipe(Recipe):
         self.set_path('exe:python', 'virtualenv:bin', 'python')
         self.set_path('exe:pip', 'virtualenv:bin', 'pip')
 
-    def gather_recipes(self):
+    def gather_tasks(self):
         self.add_task(Create)
         self.add_task(SetupPy)
         self.add_task(GatherData)
