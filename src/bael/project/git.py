@@ -11,7 +11,7 @@ class Ignore(TemplateTask):
         return '.gitignore'
 
     def get_template_path(self):
-        return '.gitignore.tpl'
+        return 'gitignore.tpl'
 
 
 class Init(Task):

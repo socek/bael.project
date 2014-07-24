@@ -44,3 +44,4 @@ local.py
 .idea
 .baelfire.*
 *.flag
+flags
