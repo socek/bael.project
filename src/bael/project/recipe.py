@@ -21,6 +21,8 @@ from .virtualenv import Virtualenv, Develop
 
 class ProjectRecipe(Recipe):
 
+    prefix = '/pyproject'
+
     def __init__(self, is_parent=True, python_version='3.4'):
         self.python_version = python_version
         super().__init__(is_parent=is_parent)
