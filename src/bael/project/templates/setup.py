@@ -2,6 +2,9 @@
 from setuptools import setup, find_packages
 
 install_requires = [
+    {% for package in settings["packages"] -%}
+        '{{package}}',
+    {% endfor %}
 ]
 
 if __name__ == '__main__':

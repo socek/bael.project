@@ -8,7 +8,7 @@ install_requires = [
 
 if __name__ == '__main__':
     setup(name='bael.project',
-          version='0.1',
+          version='0.1.1',
           packages=find_packages('src'),
           package_dir={'': 'src'},
           namespace_packages=['bael'],
