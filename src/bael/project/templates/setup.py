@@ -6,6 +6,11 @@ install_requires = [
         '{{package}}',
     {% endfor %}
 ]
+dependency_links = [
+    {% for link in settings["dependency_links"] -%}
+        '{{link}}',
+    {% endfor %}
+]
 
 if __name__ == '__main__':
     setup(name='{{settings["name"]}}',
@@ -13,5 +18,9 @@ if __name__ == '__main__':
           packages=find_packages('src'),
           package_dir={'': 'src'},
           install_requires=install_requires,
+          dependency_links=dependency_links,
           include_package_data=True,
+          entry_points="""\
+          {{settings["entry_points"]}}
+          """,
           )

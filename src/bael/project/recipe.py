@@ -16,6 +16,8 @@ from .git import (
     Develop as GitDevelop,
 )
 
+from .datafile import DataFile
+
 from .virtualenv import Virtualenv, Develop
 
 
@@ -36,6 +38,7 @@ class ProjectRecipe(Recipe):
         self.set_path('flags', 'cwd', 'flags')
 
         self.set_path('project:setuppy', 'cwd', 'setup.py')
+        self.set_path('project:config', 'cwd', '.pyproject.json')
 
         self.set_path('flags:develop', 'flags', 'develop.flag')
         self.set_path('flags:git', 'flags', '.git.flag')
@@ -45,6 +48,16 @@ class ProjectRecipe(Recipe):
         self.set_path('exe:pip', 'virtualenv:bin', 'pip')
 
         self.settings['packages'] = []
+        self.settings['dependency_links'] = []
+        self.settings['directories'] = [
+            'src',
+            'flags',
+            'project:home',
+        ]
+        self.settings['entry_points'] = ''
+
+        self.datafile = DataFile('project:config', self)
+        self.datafile.run()
 
     def gather_tasks(self):
         self.add_task(Create)
