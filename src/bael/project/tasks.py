@@ -57,7 +57,7 @@ class Directories(Task):
 
     def make(self):
         for directory in self.directories:
-            if not path.exists(directory):
+            if not path.exists(self.paths[directory]):
                 mkdir(self.paths[directory])
 
     def generate_links(self):
