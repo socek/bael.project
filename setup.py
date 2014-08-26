@@ -17,7 +17,7 @@ if __name__ == '__main__':
           install_requires=install_requires,
           zip_safe=False,
           package_data={
-              '': ['project/templates/*.tpl'],
+              '': ['project/templates/*.tpl', 'project/templates/*.py'],
           },
           entry_points="""\
               [console_scripts]
