@@ -55,6 +55,7 @@ class ProjectRecipe(Recipe):
             'project:home',
         ]
         self.settings['entry_points'] = ''
+        self.paths['project:home'] = ['%(src)s', '%(package:name)s']
 
         self.datafile = DataFile('project:config', self)
         self.datafile.run()

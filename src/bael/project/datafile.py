@@ -24,9 +24,7 @@ class DataFile(object):
 
     def generate_settings(self):
         self.settings['package:name'] = self.settings['name'].lower()
-        self.paths['project:home'] = [
-            '%(src)s',
-            self.settings['package:name']]
+        self.paths['package:name'] = self.settings['package:name']
 
     def save(self, data):
         datafile = open(self.get_filepath(), 'w')
