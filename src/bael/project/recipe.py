@@ -33,17 +33,17 @@ class ProjectRecipe(Recipe):
         self.settings['python_version'] = self.python_version
 
     def create_settings(self):
-        self.set_path('virtualenv', 'cwd', 'venv')
+        self.set_path('virtualenvdir', 'cwd', 'venv')
         self.set_path('src', 'cwd', 'src')
-        self.set_path('flags', 'cwd', 'flags')
+        self.set_path('flagsdir', 'cwd', 'flags')
 
         self.set_path('project:setuppy', 'cwd', 'setup.py')
         self.set_path('project:config', 'cwd', '.pyproject.json')
 
-        self.set_path('flags:develop', 'flags', 'develop.flag')
-        self.set_path('flags:git', 'flags', '.git.flag')
+        self.set_path('flags:develop', 'flagsdir', 'develop.flag')
+        self.set_path('flags:git', 'flagsdir', '.git.flag')
 
-        self.set_path('virtualenv:bin', 'virtualenv', 'bin')
+        self.set_path('virtualenv:bin', 'virtualenvdir', 'bin')
         self.set_path('exe:python', 'virtualenv:bin', 'python')
         self.set_path('exe:pip', 'virtualenv:bin', 'pip')
 
@@ -51,7 +51,7 @@ class ProjectRecipe(Recipe):
         self.settings['dependency_links'] = []
         self.settings['directories'] = [
             'src',
-            'flags',
+            'flagsdir',
             'project:home',
         ]
         self.settings['entry_points'] = ''

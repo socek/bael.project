@@ -7,12 +7,12 @@ class Virtualenv(Task):
     help = 'Generates virtual envoritment'
 
     def get_output_file(self):
-        return self.paths['virtualenv']
+        return self.paths['virtualenvdir']
 
     def make(self):
         self.command(['virtualenv -p python%s %s' % (
             self.python_version(),
-            self.paths['virtualenv'])]
+            self.paths['virtualenvdir'])]
         )
 
     def python_version(self):

@@ -2,13 +2,13 @@
 from setuptools import setup, find_packages
 
 install_requires = [
-    'baelfire==0.2.4',
+    'baelfire>=0.2.5',
     'virtualenv',
 ]
 
 if __name__ == '__main__':
     setup(name='bael.project',
-          version='0.1.2',
+          version='0.1.3',
           description='Simple project generator.',
           license='Apache License 2.0',
           packages=find_packages('src'),
