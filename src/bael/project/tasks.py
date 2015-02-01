@@ -69,17 +69,19 @@ class Inits(Task):
     name = 'Creating __init__ files'
 
     def get_paths(self):
-        url = Directories
-        for directory in self.task(url).directories:
-            name = '%schild:initpy' % (directory,)
-            yield self.paths[name]
+        for dir_path in self._task_paths:
+            yield dir_path
 
     def generate_dependencies(self):
+        self._task_paths = []
         url = Directories
         for directory in self.task(url).directories:
             name = '%schild:initpy' % (directory,)
             self.recipe.set_path(name, directory, '__init__.py')
-            self.add_dependecy(PathsBasedFileDoesNotExists(self.paths, name))
+            if self.paths[name].startswith(self.paths['project:home']):
+                self.add_dependecy(
+                    PathsBasedFileDoesNotExists(self.paths, name))
+                self._task_paths.append(self.paths[name])
 
     def generate_links(self):
         self.add_link(Directories)
