@@ -4,7 +4,6 @@ from baelfire.application.application import Application
 from .tasks import (
     Create,
     SetupPy,
-    GatherData,
     Directories,
     Inits,
 )
@@ -55,15 +54,18 @@ class ProjectRecipe(Recipe):
             'project:home',
         ]
         self.settings['entry_points'] = ''
-        self.paths['project:home'] = ['%(src)s', '%(package:name)s']
 
         self.datafile = DataFile('project:config', self)
         self.datafile.run()
 
+        self.paths['project:home'] = ['%(src)s', '%(package:name)s']
+        self.paths.set_path('virtualenvdir', 'cwd', 'venv_%(package:name)s')
+        self.set_path('exe:python', 'virtualenv:bin', 'python')
+        self.set_path('exe:pip', 'virtualenv:bin', 'pip')
+
     def gather_tasks(self):
         self.add_task(Create)
         self.add_task(SetupPy)
-        self.add_task(GatherData)
         self.add_task(Directories)
         self.add_task(Inits)
         self.add_task(Ignore)

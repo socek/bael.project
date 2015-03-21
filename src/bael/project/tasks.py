@@ -1,25 +1,8 @@
 from os import mkdir, path
 
-from bael.project.datafile import DataFile
 from baelfire.dependencies import PathsBasedFileDoesNotExists
 from baelfire.task import Task
 from baelfire.template import TemplateTask
-
-
-class GatherData(Task):
-    hide = True
-    name = 'Gather data'
-
-    def get_output_file(self):
-        return self.paths['project:config']
-
-    def make(self):
-        self.ask_for_setting('name', 'Project name')
-        datafile = DataFile('project:config', self.recipe)
-        datafile.generate_settings()
-        datafile.save({
-            'name': self.settings['name'],
-        })
 
 
 class SetupPy(TemplateTask):
@@ -35,9 +18,6 @@ class SetupPy(TemplateTask):
 
     def get_template_path(self):
         return 'setup.py'
-
-    def pre_invoked_tasks(self):
-        self.invoke_task(GatherData)
 
 
 class Directories(Task):
@@ -59,9 +39,6 @@ class Directories(Task):
         for directory in self.directories:
             if not path.exists(self.paths[directory]):
                 mkdir(self.paths[directory])
-
-    def generate_links(self):
-        self.add_link(GatherData)
 
 
 class Inits(Task):
