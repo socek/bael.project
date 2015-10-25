@@ -16,7 +16,6 @@ if __name__ == '__main__':
     setup(name='{{settings["name"]}}',
           version='0.1',
           packages=find_packages('src'),
-          package_dir={'': 'src'},
           install_requires=install_requires,
           dependency_links=dependency_links,
           include_package_data=True,
@@ -24,3 +23,4 @@ if __name__ == '__main__':
           {{settings["entry_points"]}}
           """,
           )
+

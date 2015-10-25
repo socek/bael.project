@@ -2,13 +2,13 @@
 from setuptools import setup, find_packages
 
 install_requires = [
-    'baelfire>=0.2.5',
+    'baelfire==0.3',
     'virtualenv',
 ]
 
 if __name__ == '__main__':
     setup(name='bael.project',
-          version='0.1.5',
+          version='0.2',
           description='Simple project generator.',
           license='Apache License 2.0',
           packages=find_packages('src'),
@@ -17,7 +17,7 @@ if __name__ == '__main__':
           install_requires=install_requires,
           zip_safe=False,
           package_data={
-              '': ['project/templates/*.tpl', 'project/templates/*.py'],
+              '': ['project/templates/*.jinja2'],
           },
           entry_points="""\
               [console_scripts]
