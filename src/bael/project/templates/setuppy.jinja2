@@ -13,9 +13,9 @@ dependency_links = [
 ]
 
 if __name__ == '__main__':
-    setup(name='{{settings["name"]}}',
+    setup(name='{{settings["project_name"]}}',
           version='0.1',
-          packages=find_packages('src'),
+          packages=find_packages('.'),
           install_requires=install_requires,
           dependency_links=dependency_links,
           include_package_data=True,
