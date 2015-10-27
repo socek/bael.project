@@ -1,103 +1,109 @@
 1. bael.project
 ===============
-bael.project is simple example for Baelfire framework. This project provide simple
+bael.project is an example for Baelfire framework. This project provide simple
 command line tool for auto-creation Python projects.
 
 2. Command line tool
 ====================
-pyproject is a script using bael.project recipe
+
+usage: pyproject [-h] [-c] [-d] [-g] [-l {debug,info,warning,error,critical}]
+
+optional arguments:
+  -h, --help            show this help message and exit
+
+Tasks:
+  Project related options
+
+  -c, --create          Create full project path.
+  -d, --develop         Download requiretments.
+  -g, --graph           Draw task dependency graph.
+
+Logging:
+  Logging related options.
+
+  -l, --log-level       Log level       {debug,info,warning,error,critical}
+
+
+This command line tool provide endpoint for 2 tasks:
+
+* bael.project.develop:Create (which creates quick python project)
+* bael.project.develop:Develop (which update requiretments depend on setup.py file)
+
+So for using this tasks you can alse use bael tool:
 ::
-    $ pyproject -l
-     Name                 Path           Help
-     ----                 ----           ----
-     Create virtualenv    /virtualenv    Generates virtual envoritment
-     Create               /create        Creates sample python repository
-     Git initial commit   /git           Creates sample python repository with git
-     Develop with git     /develop/git   Run setup.py develop with virtualenv with git repository
-     Setup develop        /develop       Run setup.py develop with virtualenv
+    $ bael -t bael.project.develop:Create
+    $ bael -t bael.project.develop:Develop
 
 3. Creating bare project
 ========================
-bael.project asume that Python project needs to have setu.py and src directory.
+pyproject asume that Python project needs to have setu.py and src directory.
 When creating new project, pyproject will ask for project name, ane write it into
-setup.py file
+setup.py file. Also this tool will create virtualenv directory for you.
 ::
-    $ pyproject /create
-    * Gather data
-    Project name: myproject
-    * Creating setup.py file
-    * Creating directories
-    * Creating __init__ files
+    $ pyproject -c
+    Project name: Example Project
+    Package name: exproject
+     * INFO bael.project.virtualenv.VirtualenvTask: Running *
+    Using real prefix '/usr'
+    New python executable in /tmp/testme/venv_exproject/bin/python
+    Installing setuptools, pip, wheel...done.
+     * INFO bael.project.project.SetupPy: Running *
+     * INFO bael.project.folders.SrcFolderTask: Running *
+     * INFO bael.project.folders.MainFolderTask: Running *
+     * INFO bael.project.folders.FillWithInitsTask: Running *
+     * INFO bael.project.develop.Create: Running *
 
-or you can provide project name in command line like this:
+Project name and package name will be saved in .pyproject.yaml file, so next
+time you use this tool no input will be needed.
+
+4. Updateting projects requiretments
+====================================
+Other useful task is updateting your virtualenv to the most recent requiretments
+version. Requiretments are store in the setup.py file.
 ::
-    $ pyproject /create /gatherdata?project_name=myproject
-    * Gather data
-    * Creating setup.py file
-    * Creating directories
-    * Creating __init__ files
-
-/gatherdata is another task, which is here only to ask for project name
-
-4. Creating project with virtualenv
-===================================
-Often we need to have project with virtualenv. /virtualenv task will create it
-for us. /develop will run "setup.py develop" for us. It will be runned every time
-when we change the setup.py (where we can change package dependencies).
-::
-    $ pyproject /develop /gatherdata?project_name=myproject
-    * Gather data
-    * Creating setup.py file
-    * Creating directories
-    * Creating __init__ files
-    * Create virtualenv
-    Running virtualenv with interpreter /usr/bin/python3.4
-    Using base prefix '/usr'
-    New python executable in venv/bin/python3.4
-    Also creating executable in venv/bin/python
-    Installing setuptools, pip...done.
-    * Setup develop
+    $ pyproject -d
+     * INFO bael.project.develop.Develop: Running *
     running develop
     running egg_info
-    creating src/myproject.egg-info
-    writing dependency_links to src/myproject.egg-info/dependency_links.txt
-    writing top-level names to src/myproject.egg-info/top_level.txt
-    writing src/myproject.egg-info/PKG-INFO
-    writing manifest file 'src/myproject.egg-info/SOURCES.txt'
-    reading manifest file 'src/myproject.egg-info/SOURCES.txt'
-    writing manifest file 'src/myproject.egg-info/SOURCES.txt'
+    creating Example_Project.egg-info
+    writing Example_Project.egg-info/PKG-INFO
+    writing entry points to Example_Project.egg-info/entry_points.txt
+    writing top-level names to Example_Project.egg-info/top_level.txt
+    writing dependency_links to Example_Project.egg-info/dependency_links.txt
+    writing manifest file 'Example_Project.egg-info/SOURCES.txt'
+    reading manifest file 'Example_Project.egg-info/SOURCES.txt'
+    writing manifest file 'Example_Project.egg-info/SOURCES.txt'
     running build_ext
-    Creating /tmp/red/venv/lib/python3.4/site-packages/myproject.egg-link (link to src)
-    Adding myproject 0.1 to easy-install.pth file
+    Creating /tmp/testme/venv_exproject/lib/python3.5/site-packages/Example-Project.egg-link (link to .)
+    Adding Example-Project 0.1 to easy-install.pth file
 
-    Installed /tmp/red/src
-    Processing dependencies for myproject==0.1
-    Finished processing dependencies for myproject==0.1
-    $ pyproject /develop /gatherdata?project_name=myproject
-    * Gather data
+    Installed /tmp/testme
+    Processing dependencies for Example-Project==0.1
+    Finished processing dependencies for Example-Project==0.1
+    $ pyproject -d
     $ touch setup.py
-    $ pyproject /develop /gatherdata?project_name=myproject
-    * Setup develop
+    $ pyproject -d
+     * INFO bael.project.develop.Develop: Running *
     running develop
     running egg_info
-    writing src/myproject.egg-info/PKG-INFO
-    writing dependency_links to src/myproject.egg-info/dependency_links.txt
-    writing top-level names to src/myproject.egg-info/top_level.txt
-    reading manifest file 'src/myproject.egg-info/SOURCES.txt'
-    writing manifest file 'src/myproject.egg-info/SOURCES.txt'
+    writing dependency_links to Example_Project.egg-info/dependency_links.txt
+    writing entry points to Example_Project.egg-info/entry_points.txt
+    writing top-level names to Example_Project.egg-info/top_level.txt
+    writing Example_Project.egg-info/PKG-INFO
+    reading manifest file 'Example_Project.egg-info/SOURCES.txt'
+    writing manifest file 'Example_Project.egg-info/SOURCES.txt'
     running build_ext
-    Creating /tmp/red/venv/lib/python3.4/site-packages/myproject.egg-link (link to src)
-    myproject 0.1 is already the active version in easy-install.pth
+    Creating /tmp/testme/venv_exproject/lib/python3.5/site-packages/Example-Project.egg-link (link to .)
+    Example-Project 0.1 is already the active version in easy-install.pth
 
-    Installed /tmp/red/src
-    Processing dependencies for myproject==0.1
-    Finished processing dependencies for myproject==0.1
-    * Gather data
+    Installed /tmp/testme
+    Processing dependencies for Example-Project==0.1
+    Finished processing dependencies for Example-Project==0.1
 
-5. Drawning graphs
-==================
+5. Drawning graphs of dependencies
+==================================
 We can draw a task graph of actual (or last) command.
 ::
-    $ pyproject -g
-    $ ls .baelfire.lastlog.png
-    .baelfire.lastlog.png
+    $ pyproject -d -g
+    $ ls graph.png
+    graph.png
