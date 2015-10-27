@@ -21,6 +21,6 @@ if __name__ == '__main__':
           },
           entry_points="""\
               [console_scripts]
-                  pyproject = bael.project.recipe:run
+                  pyproject = bael.project.cmd:run
           """,
           )

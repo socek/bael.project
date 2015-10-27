@@ -17,7 +17,7 @@ class MissingInitFiles(FileDependency):
                 if '__init__.py' not in files:
                     return True
         except FileNotFoundError:
-            pass
+            return True
         return False
 
 
