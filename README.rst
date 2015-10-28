@@ -3,6 +3,11 @@
 bael.project is an example for Baelfire framework. This project provide simple
 command line tool for auto-creation Python projects.
 
+.. image:: http://socek.org/baelfire/graph.png
+    :alt: Example graph
+    :target: http://socek.org/baelfire/graph.png
+
+
 2. Command line tool
 ====================
 
