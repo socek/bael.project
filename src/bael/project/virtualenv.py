@@ -6,9 +6,6 @@ from baelfire.task import SubprocessTask
 
 class BaseVirtualenv(SubprocessTask):
 
-    def create_dependecies(self):
-        self.add_dependency(RunBefore(ProjectBase()))
-
     def phase_settings(self):
         super().phase_settings()
 
@@ -30,8 +27,8 @@ class BaseVirtualenv(SubprocessTask):
 class VirtualenvTask(BaseVirtualenv):
 
     def create_dependecies(self):
-        super().create_dependecies()
         self.add_dependency(FileDoesNotExists('virtualenv:base'))
+        self.add_dependency(RunBefore(ProjectBase()))
 
     def build(self):
         cmd = 'virtualenv ' + self.paths['virtualenv:base']

@@ -28,7 +28,6 @@ class Develop(BaseVirtualenv):
         return self.paths[self.output_name]
 
     def create_dependecies(self):
-        super().create_dependecies()
         self.add_dependency(TaskDependency(Create()))
         self.add_dependency(FileChanged('setuppy'))
 
