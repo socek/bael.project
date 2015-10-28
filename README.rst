@@ -107,3 +107,7 @@ We can draw a task graph of actual (or last) command.
     $ pyproject -d -g
     $ ls graph.png
     graph.png
+
+.. image:: http://socek.org/baelfire/graph.png
+    :alt: Example graph
+    :target: http://socek.org/baelfire/graph.png
