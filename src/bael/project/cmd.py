@@ -50,10 +50,12 @@ class BaelApplication(Application):
         if args.create or args.develop:
             task = self._get_task(args)
             try:
-                task.run()
-                report_path = task.save_report()
+                try:
+                    task.run()
+                finally:
+                    report_path = task.save_report()
             except:
-                log.error('Error in %(report)s' % task.paths)
+                log.error('Error in %s' % (report_path,))
                 raise
             if args.graph:
                 Graph(report_path).render()
