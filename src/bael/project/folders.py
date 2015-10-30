@@ -5,8 +5,8 @@ from os import path
 from .base import ProjectBase
 from baelfire.dependencies import FileDoesNotExists
 from baelfire.dependencies import RunBefore
-from baelfire.task import Task
 from baelfire.dependencies.file import FileDependency
+from baelfire.task import Task
 
 
 class MissingInitFiles(FileDependency):

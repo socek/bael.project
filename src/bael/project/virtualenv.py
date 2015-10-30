@@ -9,8 +9,11 @@ class BaseVirtualenv(SubprocessTask):
     def phase_settings(self):
         super().phase_settings()
 
-        self.paths.set_path('virtualenv:base', 'cwd',
-                            'venv_%(settings:package_name)s')
+        self.paths.set_path(
+            'virtualenv:base',
+            'cwd',
+            'venv_%(settings:package_name)s',
+        )
         self.paths.set_path('virtualenv:bin', 'virtualenv:base', 'bin')
         self.paths.set_path('exe:python', 'virtualenv:bin', 'python')
         self.paths.set_path('exe:pip', 'virtualenv:bin', 'pip')
