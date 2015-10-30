@@ -1,8 +1,10 @@
-from os import getcwd
+from os.path import abspath
 from os.path import dirname
+from os.path import exists
+from os.path import join
 
-from baelfire.task import Task
 from baelfire.filedict import FileDict
+from baelfire.task import Task
 
 from bael import project
 
@@ -13,7 +15,7 @@ class ProjectBase(Task):
         super().phase_settings()
         data = self.get_data_settings()
 
-        self.paths['cwd'] = getcwd()
+        self.paths['cwd'] = dirname(self.find_pyproject_file())
         self.paths['project'] = dirname(project.__file__)
         self.paths.set_path('templates', 'project', 'templates')
         self.settings['project_name'] = data['name']
@@ -23,12 +25,25 @@ class ProjectBase(Task):
         self.paths.set_path('package:main', 'src', '%(settings:package_name)s')
 
     def get_data_settings(self):
-        data = FileDict('.pyproject.yaml')
+        path = self.find_pyproject_file()
+        data = FileDict(path)
         data.load(True)
         data.ensure_key_exists('name', 'Project name')
         data.ensure_key_exists('package name', 'Package name')
         data.save()
         return data
+
+    def find_pyproject_file(self, path=None):
+        if not path:
+            path = abspath('./')
+        file_path = join(path, '.pyproject.yaml')
+        if exists(file_path):
+            return file_path
+        else:
+            toppath = dirname(path)
+            if toppath == path:
+                return '.pyproject.yaml'
+            return self.find_pyproject_file(toppath)
 
     def create_dependecies(self):
         pass
