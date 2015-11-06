@@ -16,8 +16,8 @@ class ProjectBase(Task):
         data = self.get_data_settings()
 
         self.paths['cwd'] = dirname(self.find_pyproject_file())
-        self.paths['project'] = dirname(project.__file__)
-        self.paths.set_path('templates', 'project', 'templates')
+        self.paths['pyproject'] = dirname(project.__file__)
+        self.paths.set_path('pyptemplates', 'pyproject', 'templates')
         self.settings['project_name'] = data['name']
         self.settings['package_name'] = data['package name']
 

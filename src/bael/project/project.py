@@ -14,5 +14,5 @@ class SetupPy(FirstTemplateTask):
 
     def phase_settings(self):
         super().phase_settings()
-        self.paths.set_path('template_setuppy', 'templates', 'setuppy.jinja2')
+        self.paths.set_path('template_setuppy', 'pyptemplates', 'setuppy.jinja2')
         self.paths.set_path('setuppy', 'cwd', 'setup.py')
