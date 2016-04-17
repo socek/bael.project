@@ -14,7 +14,12 @@ class MissingInitFiles(FileDependency):
     def should_build(self):
         try:
             for root, dirs, files, rootfd in fwalk(self.path):
-                if '__init__.py' not in files:
+                make = True
+                for dirname in self.settings['ignore_inits_dirs']:
+                    if dirname in root:
+                        make = False
+                        break
+                if make and '__init__.py' not in files:
                     return True
         except FileNotFoundError:
             return True
@@ -49,7 +54,19 @@ class FillWithInitsTask(Task):
         self.add_dependency(RunBefore(MainFolderTask()))
         self.add_dependency(MissingInitFiles(self.output_name))
 
+    def phase_settings(self):
+        super().phase_settings()
+        self.settings['ignore_inits_dirs'] = [
+            '__pycache__',
+        ]
+
     def build(self):
         for root, dirs, files, rootfd in fwalk(self.paths[self.output_name]):
-            if '__init__.py' not in files:
+            make = True
+            for dirname in self.settings['ignore_inits_dirs']:
+                if dirname in root:
+                    make = False
+                    break
+            if make and '__init__.py' not in files:
+                print('\t\t-> Creatint')
                 open(path.join(root, '__init__.py'), 'w').close()
