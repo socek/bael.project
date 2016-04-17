@@ -9,7 +9,7 @@ install_requires = [
 if __name__ == '__main__':
     setup(
         name='bael.project',
-        version='0.2.1',
+        version='0.2.2',
         description='Simple project generator.',
         license='Apache License 2.0',
         packages=find_packages('src'),

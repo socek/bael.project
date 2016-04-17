@@ -68,5 +68,4 @@ class FillWithInitsTask(Task):
                     make = False
                     break
             if make and '__init__.py' not in files:
-                print('\t\t-> Creatint')
                 open(path.join(root, '__init__.py'), 'w').close()
