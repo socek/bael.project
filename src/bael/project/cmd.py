@@ -1,3 +1,4 @@
+from .core import ProjectCore
 from argparse import ArgumentParser
 from baelfire.application.application import Application
 from baelfire.application.commands.graph.graph import Graph
@@ -7,6 +8,7 @@ log = getLogger(__name__)
 
 
 class BaelApplication(Application):
+    core_cls = ProjectCore
 
     tasks = {
         'develop': 'bael.project.develop:Develop',
@@ -64,9 +66,9 @@ class BaelApplication(Application):
 
     def _get_task(self, args):
         if args.create:
-            return self.import_task(self.tasks['create'])()
+            return self.import_task(self.tasks['create'])(self.core_cls())
         elif args.develop:
-            return self.import_task(self.tasks['develop'])()
+            return self.import_task(self.tasks['develop'])(self.core_cls())
         else:
             raise RuntimeError('No task selected!')
 

@@ -1,6 +1,4 @@
-from .base import ProjectBase
 from baelfire.dependencies import FileDoesNotExists
-from baelfire.dependencies import RunBefore
 from baelfire.task import SubprocessTask
 
 
@@ -31,7 +29,6 @@ class VirtualenvTask(BaseVirtualenv):
 
     def create_dependecies(self):
         self.add_dependency(FileDoesNotExists('virtualenv:base'))
-        self.add_dependency(RunBefore(ProjectBase()))
 
     def build(self):
         cmd = 'virtualenv ' + self.paths['virtualenv:base']

@@ -2,7 +2,6 @@ from os import fwalk
 from os import mkdir
 from os import path
 
-from .base import ProjectBase
 from baelfire.dependencies import FileDoesNotExists
 from baelfire.dependencies import RunBefore
 from baelfire.dependencies.file import FileDependency
@@ -29,7 +28,6 @@ class MissingInitFiles(FileDependency):
 class SrcFolderTask(Task):
 
     def create_dependecies(self):
-        self.add_dependency(RunBefore(ProjectBase()))
         self.add_dependency(FileDoesNotExists('package:src'))
 
     def build(self):

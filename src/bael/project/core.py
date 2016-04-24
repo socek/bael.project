@@ -1,18 +1,16 @@
+from bael import project
+from baelfire.core import Core
+from baelfire.filedict import FileDict
 from os.path import abspath
 from os.path import dirname
 from os.path import exists
 from os.path import join
 
-from baelfire.filedict import FileDict
-from baelfire.task import Task
 
-from bael import project
+class ProjectCore(Core):
 
-
-class ProjectBase(Task):
-
-    def phase_settings(self):
-        super().phase_settings()
+    def before_dependencies(self):
+        super().before_dependencies()
         data = self.get_data_settings()
 
         self.paths['cwd'] = dirname(self.find_pyproject_file())
@@ -44,9 +42,3 @@ class ProjectBase(Task):
             if toppath == path:
                 return '.pyproject.yaml'
             return self.find_pyproject_file(toppath)
-
-    def create_dependecies(self):
-        pass
-
-    def build(self):
-        pass
