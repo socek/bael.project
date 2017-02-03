@@ -1,9 +1,7 @@
 from baelfire.dependencies import FileChanged
-from baelfire.dependencies import RunBefore
 from baelfire.dependencies import TaskDependency
 from baelfire.task import Task
 
-from .folders import FillWithInitsTask
 from .project import SetupPy
 from .virtualenv import BaseVirtualenv
 from .virtualenv import VirtualenvTask
@@ -14,7 +12,6 @@ class Create(Task):
     def create_dependecies(self):
         self.add_dependency(TaskDependency(VirtualenvTask()))
         self.add_dependency(TaskDependency(SetupPy()))
-        self.add_dependency(RunBefore(FillWithInitsTask()))
 
     def build(self):
         pass
