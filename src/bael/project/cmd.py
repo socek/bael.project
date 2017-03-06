@@ -61,8 +61,16 @@ class BaelApplication(Application):
                 raise
             if args.graph:
                 Graph(report_path).render()
+        elif args.graph:
+            Graph(self.get_graph_path()).render()
         else:
             self.parser.print_help()
+
+    def get_graph_path(self):
+        core = self.core_cls()
+        core.init()
+        core.phase_settings()
+        return core.paths.get('report')
 
     def _get_task(self, args):
         if args.create:

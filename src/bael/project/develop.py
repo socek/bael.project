@@ -22,13 +22,13 @@ class Develop(BaseVirtualenv):
 
     @property
     def output(self):
-        return self.paths[self.output_name]
+        return self.paths.get(self.output_name)
 
     def create_dependecies(self):
         self.add_dependency(TaskDependency(Create()))
         self.add_dependency(FileChanged('setuppy'))
 
     def build(self):
-        cmd = '%(setuppy)s develop' % self.paths
+        cmd = '{0} develop'.format(self.paths.get('setuppy'))
         self.python(cmd)
-        self.popen(['touch %(exe:python)s' % self.paths])
+        self.popen(['touch {0}'.format(self.paths.get('exe:python'))])
