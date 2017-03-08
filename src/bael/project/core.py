@@ -22,7 +22,7 @@ class ProjectCore(Core):
         self.paths.set('pyptemplates', 'templates', 'pyproject')
 
         self.paths.set('package:src', 'src', 'cwd')
-        self.paths.set_generator('package:main', lambda paths: self.settings['package_name'], 'src')
+        self.paths.set_generator('package:main', lambda paths: self.settings['package_name'], 'package:src')
         self.paths.set(
             'template_setuppy',
             'setuppy.jinja2',
