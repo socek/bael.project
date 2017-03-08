@@ -5,11 +5,11 @@ from baelfire.task import SubprocessTask
 class BaseVirtualenv(SubprocessTask):
 
     def python(self, command, *args, **kwargs):
-        command = self.paths['exe:python'] + ' ' + command
+        command = self.paths.get('exe:python') + ' ' + command
         return self.popen([command], *args, **kwargs)
 
     def pip(self, command, *args, **kwargs):
-        command = self.paths['exe:pip'] + ' ' + command
+        command = self.paths.get('exe:pip') + ' ' + command
         return self.popen([command], *args, **kwargs)
 
 
